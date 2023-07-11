@@ -39,8 +39,33 @@ class Task:
 
 
 if __name__ == "__main__":
-    tsk_list = TaskList("Viktor", "daily")
-    tsk = Task("Homework", "2023-07-15", datetime.datetime.today().date(), "It's important")
-    tsk2 = Task("Homework2", "2023-08-25", datetime.datetime.today().date(), "You have time")
-    tsk_list.add_task(tsk, tsk2)
-    print(tsk_list)
+    tasklists = []
+    while True:
+        request = int(input("Create new tasklist(1) or Show existing tasklists(2): 1 / 2:\n"))
+        if request == 1:
+            new_list = TaskList(input("Enter your tasklist name: "), input("Enter category: "))
+            tasklists.append(new_list)
+            continue
+        elif request == 2:
+            if not tasklists:
+                print("Tasklist is empty")
+                continue
+            for index, tasklist in enumerate(tasklists):
+                print(f"{index + 1}. {tasklist.name} - {tasklist.category}")
+
+            change_req = True if input("Would you like to change a tasklist?: Y/n:\n").lower() == "y" else False
+            if change_req:
+                change_task = int(input("Enter the number of the tasklist you would like to change: ")) - 1
+                if change_task > len(tasklists) - 1:
+                    print("Sorry this tasklist does not exist!")
+                    continue
+                new_task = Task(
+                    task_name= input("Please enter taskname: "),
+                    deadline= input("Enter deadline yyyy-mm-dd: "),
+                    date= datetime.datetime.now().date(),
+                    label= input("Enter note: ")
+                )
+                tasklists[change_task].add_task(new_task)
+
+
+
