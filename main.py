@@ -6,6 +6,7 @@
 #Deadline
 #Priority list: optional
 import datetime
+import pickle
 
 
 class TaskList:
@@ -41,7 +42,23 @@ class Task:
 if __name__ == "__main__":
     tasklists = []
     while True:
-        request = int(input("Create new tasklist(1) or Show existing tasklists(2): 1 / 2:\n"))
+        request = int(input("Create new tasklist(1) "
+                            "or Show existing tasklists(2) "
+                            "or Save progress(3) "
+                            "or Load a project(4): 1 / 2 / 3 / 4:\n"))
+        if request == 4:
+            with open(input("Enter project: ") + '.tl', 'rb') as handle:
+                tasklists = pickle.load(handle)
+
+        if request == 3:
+            if not tasklists:
+                print("Tasklist is empty")
+                continue
+
+            with open(input("Enter project: ") + '.tl', 'wb') as handle:
+                pickle.dump(tasklists, handle, protocol=pickle.HIGHEST_PROTOCOL)
+                print("Project saved!")
+
         if request == 1:
             new_list = TaskList(input("Enter your tasklist name: "), input("Enter category: "))
             tasklists.append(new_list)
