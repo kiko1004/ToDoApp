@@ -53,6 +53,14 @@ if __name__ == "__main__":
             for index, tasklist in enumerate(tasklists):
                 print(f"{index + 1}. {tasklist.name} - {tasklist.category}")
 
+            view_request = True if input("Would you like to view a tasklist?: Y/n:\n").lower() == "y" else False
+            if view_request:
+                view_task = int(input("Enter the number of the tasklist you would like to see: ")) - 1
+                if view_task > len(tasklists) - 1:
+                    print("Sorry this tasklist does not exist!")
+                    continue
+                print(tasklists[view_task])
+
             change_req = True if input("Would you like to change a tasklist?: Y/n:\n").lower() == "y" else False
             if change_req:
                 change_task = int(input("Enter the number of the tasklist you would like to change: ")) - 1
